@@ -41,6 +41,13 @@ M.mason = {
     "gopls",
     "gradle_ls",
     "terraform-ls",
+    "nginx-language-server",
+    "ansible-language-server",
+    "bash-language-server",
+    "docker-language-server",
+    "docker-compose-language-service",
+    "helm-ls",
+    "yaml-language-server",
   },
 }
 
@@ -61,4 +68,3 @@ M.nvimtree = {
 }
 
 return M
-

@@ -19,11 +19,18 @@ return {
       "TmuxNavigatePrevious",
     },
   },
-  -- Плагин для улучшения интерфейса в некоторых окнах Neovim
+  -- Плагины для улучшения интерфейса в некоторых окнах Neovim
   {
     "stevearc/dressing.nvim",
     lazy = false,
     opts = {},
+  },
+  {
+    "MunifTanjim/nui.nvim",
+  },
+  {
+    "nvim-lua/plenary.nvim",
+    lazy = false,
   },
 
   -- Конфигурация для языковых серверов (LSP)
@@ -271,11 +278,6 @@ return {
     },
   },
 
-  {
-    "nvim-lua/plenary.nvim",
-    lazy = false,
-  },
-
   -- LazyGit
   {
     "kdheepak/lazygit.nvim",
@@ -303,6 +305,24 @@ return {
     config = function()
       require("kubectl").setup()
     end,
+  },
+
+  -- LazyDocker
+  {
+    "crnvl96/lazydocker.nvim",
+    lazy = true,
+    config = function ()
+      require("lazydocker").setup()
+    end,
+    cmd = {
+      "LazyDocker",
+    },
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+    },
+    keys = {
+      { "<leader>ld", "<cmd>LazyDocker<cr>", desc = "LazyDocker" }
+    }
   },
 
   -- Поддержка подсветки синтаксиса Terraform и автоматического форматирования

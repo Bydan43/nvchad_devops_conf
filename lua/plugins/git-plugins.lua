@@ -1,5 +1,5 @@
 return {
-    
+
   -- Поддержка работы с Git
   {
     "tpope/vim-fugitive" 
@@ -13,8 +13,8 @@ return {
   },
 
   -- Интерфейс для просмотра различий в файлах
-  { "sindrets/diffview.nvim", 
-    lazy = false 
+  { "sindrets/diffview.nvim",
+    lazy = false
   },
 
   -- Быстрый поиск и перемещение по тексту

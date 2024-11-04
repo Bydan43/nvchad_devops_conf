@@ -126,6 +126,7 @@ for _, lsp in ipairs(servers) do
     },
   }
 
+  -- Настройка сервера Nginx LSP
   lspconfig.nginx_language_server.setup {
     on_attach = on_attach,
     filetypes = { "nginx" },

@@ -11,6 +11,7 @@ local options = {
     javascriptreact = { "prettier" },
     hcl = { "hclfmt" },
     terraform = { "hclfmt" },
+    bash = { "shfmt" },
   },
 
   -- Параметры для форматирования при сохранении

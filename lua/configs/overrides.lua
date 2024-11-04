@@ -48,6 +48,10 @@ M.mason = {
     "docker-compose-language-service",
     "helm-ls",
     "yaml-language-server",
+    "shfmt",
+    "hclfmt",
+    "ansible-lint",
+    "hadolint",
   },
 }
 

@@ -271,6 +271,40 @@ return {
     },
   },
 
+  {
+    "nvim-lua/plenary.nvim",
+    lazy = false,
+  },
+
+  -- LazyGit
+  {
+    "kdheepak/lazygit.nvim",
+    lazy = true,
+    cmd = {
+      "LazyGit",
+      "LazyGitConfig",
+      "LazyGitCurrentFile",
+      "LazyGitFilter",
+      "LazyGitFilterCurrentFile",
+    },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+    keys = {
+      { "<leader>lg", "<cmd>LazyGit<cr>", desc = "LazyGit" }
+    }
+
+  },
+
+  -- kubectl
+  {
+    "ramilito/kubectl.nvim",
+    lazy = false,
+    config = function()
+      require("kubectl").setup()
+    end,
+  },
+
   -- Поддержка подсветки синтаксиса Terraform и автоматического форматирования
   {
     "hashivim/vim-terraform",

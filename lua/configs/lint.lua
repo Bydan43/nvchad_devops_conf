@@ -5,6 +5,7 @@ require("lint").linters_by_ft = {
   typescriptreact = { "eslint_d" },
   javascriptreact = { "eslint_d" },
   ansible = { "ansible-lint" },
+  docker = { "hadolint" },
 }
 
 -- Автоматически запускать линтер при сохранении файла

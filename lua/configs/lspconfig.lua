@@ -24,6 +24,7 @@ local servers = {
   "dockerls",
   "docker_compose_language_service",
   "bashls",
+  "nginx_language_server",
 }
 
 -- Функция для организации импортов в TypeScript
@@ -124,6 +125,21 @@ for _, lsp in ipairs(servers) do
       },
     },
   }
+
+  lspconfig.nginx_language_server.setup {
+    on_attach = on_attach,
+    filetypes = { "nginx" },
+    cmd = { "nginx-language-server" },
+    settings = {
+      nginxIde = {
+        diagnostics = {
+          enable = true,
+        },
+      },
+    },
+  }
+
+
   -- Настройка сервера Terraform LSP
   -- lspconfig.terraformls.setup {}
 end

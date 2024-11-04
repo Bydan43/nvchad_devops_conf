@@ -25,6 +25,7 @@ local servers = {
   "docker_compose_language_service",
   "bashls",
   "nginx_language_server",
+  "pyright",
 }
 
 -- Функция для организации импортов в TypeScript
@@ -140,6 +141,8 @@ for _, lsp in ipairs(servers) do
     },
   }
 
+  -- Настройка сервера Pyright
+  lspconfig.pyright.setup {}
 
   -- Настройка сервера Terraform LSP
   -- lspconfig.terraformls.setup {}

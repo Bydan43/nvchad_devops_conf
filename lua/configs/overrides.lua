@@ -52,6 +52,8 @@ M.mason = {
     "hclfmt",
     "ansible-lint",
     "hadolint",
+    "black",
+    "pyright",
   },
 }
 

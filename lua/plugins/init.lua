@@ -239,6 +239,38 @@ return {
     lazy = false,
   },
 
+  -- Плагин для отладки Python
+  {
+    "mfussenegger/nvim-dap",
+    config = function()
+      local dap = require('dap')
+      dap.adapters.python = {
+        type = 'executable',
+        command = 'python',
+        args = { '-m', 'debugpy.adapter' },
+      }
+      dap.configurations.python = {
+        {
+          type = 'python',
+          request = 'launch',
+          name = 'Launch file',
+          program = '${file}', -- This will launch the current file
+          pythonPath = function()
+            return 'python'
+          end,
+        },
+      }
+    end,
+  },
+
+  -- Null-ls for Black, Ruff, MyPy
+  {
+    "jose-elias-alvarez/null-ls.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+  },
+
   -- Поддержка подсветки синтаксиса Terraform и автоматического форматирования
   {
     "hashivim/vim-terraform",

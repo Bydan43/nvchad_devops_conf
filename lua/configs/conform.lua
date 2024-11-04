@@ -12,6 +12,7 @@ local options = {
     hcl = { "hclfmt" },
     terraform = { "hclfmt" },
     bash = { "shfmt" },
+    python = { "black" },
   },
 
   -- Параметры для форматирования при сохранении

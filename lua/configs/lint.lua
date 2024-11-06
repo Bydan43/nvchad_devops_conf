@@ -4,7 +4,7 @@ require("lint").linters_by_ft = {
   typescript = { "eslint_d" },
   typescriptreact = { "eslint_d" },
   javascriptreact = { "eslint_d" },
-  ansible = { "ansible-lint" },
+  ansible = { "ansiblelint" },
   docker = { "hadolint" },
 }
 

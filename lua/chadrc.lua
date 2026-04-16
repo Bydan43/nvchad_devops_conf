@@ -11,7 +11,20 @@ M.ui = {
   transparency = true, -- Включение прозрачности интерфейса
 
   statusline = {
-    theme = "vscode_colored", -- Тема для статусной строки
+    theme = "devops", -- Кастомная DevOps-строка состояния (lua/nvchad/stl/devops.lua)
+    order = {
+      "mode",
+      "file",
+      "git",
+      "%=",
+      "lsp_msg",
+      "%=",
+      "diagnostics",
+      "lsp",
+      "kube",
+      "cwd",
+      "cursor",
+    },
   },
 
   hl_override = {
@@ -36,4 +49,3 @@ M.ui = {
 }
 
 return M
-

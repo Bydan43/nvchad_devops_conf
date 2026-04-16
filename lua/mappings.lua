@@ -31,22 +31,25 @@ map("n", "<c-j>", "<cmd>:TmuxNavigateDown<cr>", { desc = "Tmux вниз" })
 -- Trouble: инструмент для отображения проблем и диагностик
 -- ---------------------------------------------------------
 -- Открыть Trouble (<leader>qx в нормальном режиме)
-map("n", "<leader>qx", "<cmd>TroubleToggle<CR>", { desc = "Открыть Trouble" })
+map("n", "<leader>qx", "<cmd>Trouble diagnostics toggle<CR>", { desc = "Диагностика: workspace" })
 
 -- Открыть Trouble с диагностикой для рабочей области (<leader>qw в нормальном режиме)
-map("n", "<leader>qw", "<cmd>TroubleToggle workspace_diagnostics<CR>", { desc = "Открыть Trouble для рабочей области" })
+map("n", "<leader>qw", "<cmd>Trouble diagnostics toggle<CR>", { desc = "Диагностика: workspace" })
 
 -- Открыть Trouble с диагностикой для документа (<leader>qd в нормальном режиме)
-map("n", "<leader>qd", "<cmd>TroubleToggle document_diagnostics<CR>", { desc = "Открыть Trouble для документа" })
+map("n", "<leader>qd", "<cmd>Trouble diagnostics_buffer toggle<CR>", { desc = "Диагностика: текущий буфер" })
 
 -- Открыть Quickfix в Trouble (<leader>qq в нормальном режиме)
-map("n", "<leader>qq", "<cmd>TroubleToggle quickfix<CR>", { desc = "Открыть Quickfix" })
+map("n", "<leader>qq", "<cmd>Trouble qflist toggle<CR>", { desc = "Quickfix" })
 
 -- Открыть список местоположений в Trouble (<leader>ql в нормальном режиме)
-map("n", "<leader>ql", "<cmd>TroubleToggle loclist<CR>", { desc = "Открыть список местоположений" })
+map("n", "<leader>ql", "<cmd>Trouble loclist toggle<CR>", { desc = "Location list" })
 
 -- Открыть заметки Todo в Trouble (<leader>qt в нормальном режиме)
 map("n", "<leader>qt", "<cmd>TodoTrouble<CR>", { desc = "Открыть Todo в Trouble" })
+
+-- Показать только ошибки (удобно для быстрого triage)
+map("n", "<leader>qe", "<cmd>Trouble diagnostics_errors toggle<CR>", { desc = "Диагностика: только ошибки" })
 
 -- --------------------------------------------------
 --                    Тесты

@@ -10,9 +10,18 @@ local options = {
     typescriptreact = { "prettier" },
     javascriptreact = { "prettier" },
     hcl = { "hclfmt" },
+    terragrunt = { "terragrunt_hclfmt" },
     terraform = { "hclfmt" },
     bash = { "shfmt" },
     python = { "black" },
+  },
+
+  formatters = {
+    terragrunt_hclfmt = {
+      command = "terragrunt",
+      args = { "hcl", "fmt", "--file", "$FILENAME" },
+      stdin = false,
+    },
   },
 
   -- Параметры для форматирования при сохранении

@@ -8,6 +8,14 @@ local capabilities = configs.capabilities
 
 -- Используем новый API vim.lsp.config вместо устаревшего require "lspconfig"
 
+-- Для terragrunt.hcl используем отдельный filetype, чтобы можно было подключить terragrunt-ls
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = "terragrunt.hcl",
+  callback = function(args)
+    vim.bo[args.buf].filetype = "terragrunt"
+  end,
+})
+
 -- Если требуется стандартная конфигурация для серверов, добавляем их в таблицу servers
 local servers = {
   "html",
@@ -217,6 +225,23 @@ vim.lsp.config('pyright', {
   on_attach = on_attach,
   capabilities = capabilities,
 })
+
+-- Настройка Terragrunt Language Server (если бинарник terragrunt-ls доступен в PATH)
+if vim.fn.executable("terragrunt-ls") == 1 then
+  vim.lsp.config("terragruntls", {
+    cmd = { "terragrunt-ls" },
+    on_attach = on_attach,
+    on_init = on_init,
+    capabilities = capabilities,
+    filetypes = { "terragrunt" },
+    root_dir = function(bufnr)
+      local fname = vim.api.nvim_buf_get_name(bufnr)
+      return vim.fs.root(fname, { ".git", "terragrunt.hcl" }) or vim.fs.dirname(fname)
+    end,
+  })
+
+  vim.lsp.enable "terragruntls"
+end
 
 -- Настройка сервера Terraform LSP
 -- vim.lsp.config('terraformls', {

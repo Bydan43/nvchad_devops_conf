@@ -204,6 +204,40 @@ map("t", "<C-f>", function()
 end, { desc = "Открыть/закрыть терминал в плавающем окне" })
 
 -- --------------------------------------------------
+--                    Terragrunt
+-- --------------------------------------------------
+local function terragrunt_validate()
+  if vim.fn.executable "terragrunt" ~= 1 then
+    vim.notify("Команда 'terragrunt' не найдена в PATH.", vim.log.levels.WARN)
+    return
+  end
+
+  local file = vim.fn.expand "%:p"
+  if file == "" then
+    vim.notify("Сначала откройте terragrunt.hcl файл.", vim.log.levels.WARN)
+    return
+  end
+
+  vim.cmd "write"
+
+  require("nvchad.term").runner {
+    id = "terragrunt_validate",
+    pos = "sp",
+    size = 0.35,
+    clear_cmd = "clear; ",
+    cmd = function()
+      local dir = vim.fn.fnamemodify(file, ":h")
+      return "cd " .. vim.fn.shellescape(dir) .. " && terragrunt hcl validate --file " .. vim.fn.shellescape(file)
+    end,
+  }
+end
+
+vim.api.nvim_create_user_command("TerragruntValidate", terragrunt_validate, {
+  desc = "Проверить terragrunt.hcl через terragrunt hcl validate",
+})
+map("n", "<leader>tv", terragrunt_validate, { desc = "Terragrunt validate" })
+
+-- --------------------------------------------------
 --                    Ansible
 -- --------------------------------------------------
 vim.api.nvim_create_autocmd("FileType", {

@@ -11,6 +11,7 @@
 - В `vim-terraform` отключён `terraform_fmt_on_save`; форматирование Terraform/HCL оставлено только через `conform.nvim`.
 - В `mason.ensure_installed` удалён дублирующийся `ansible-language-server`.
 - `which-key` переведён в упрощённый режим: `classic` preset, показываются только маппинги с `desc`, отключены шумные built-in пресеты, добавлено единое меню справки `<leader>h*`.
+- Улучшен UI `nvim-tree`: увеличена и стабилизирована панель, включены расширенные git/diagnostics/modified индикаторы, улучшены иконки/indent, добавлены хоткеи `<leader>e` (toggle) и `<leader>o` (focus).
 
 ### Added
 - Добавлен плагин `b0o/SchemaStore.nvim`.

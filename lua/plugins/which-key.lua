@@ -85,6 +85,7 @@ return {
       spec = {
         { "<leader>", group = "Лидер-меню" },
         { "<leader>h", group = "Справка и подсказки" },
+        { "<leader>e", group = "Проводник файлов" },
         { "<leader>q", group = "Диагностика (Trouble)" },
         { "<leader>t", group = "Тесты (Neotest)" },
         { "<leader>d", group = "Отладка (DAP)" },

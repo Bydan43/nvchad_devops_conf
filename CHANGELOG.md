@@ -12,6 +12,7 @@
 - В `mason.ensure_installed` удалён дублирующийся `ansible-language-server`.
 - `which-key` переведён в упрощённый режим: `classic` preset, показываются только маппинги с `desc`, отключены шумные built-in пресеты, добавлено единое меню справки `<leader>h*`.
 - Улучшен UI `nvim-tree`: увеличена и стабилизирована панель, включены расширенные git/diagnostics/modified индикаторы, улучшены иконки/indent, добавлены хоткеи `<leader>e` (toggle) и `<leader>o` (focus).
+- Улучшен UI `telescope.nvim`: обновлены layout/границы/иконки, улучшено отображение путей и добавлены удобные клавиши навигации/превью в окне поиска.
 
 ### Added
 - Добавлен плагин `b0o/SchemaStore.nvim`.

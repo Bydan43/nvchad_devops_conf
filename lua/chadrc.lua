@@ -10,6 +10,10 @@ M.ui = {
   theme = "decay",     -- Тема оформления для NvChad
   transparency = true, -- Включение прозрачности интерфейса
 
+  telescope = {
+    style = "bordered",
+  },
+
   statusline = {
     theme = "devops", -- Кастомная DevOps-строка состояния (lua/nvchad/stl/devops.lua)
     order = {
@@ -45,6 +49,16 @@ M.ui = {
       bg = "#461414", -- Фон для удаленных строк
       fg = "none",    -- Цвет текста отключен
     },
+
+    -- Telescope: контрастные рамки и читаемые заголовки
+    TelescopeBorder = { fg = "#6f8faf", bg = "none" },
+    TelescopePromptBorder = { fg = "#88c0d0", bg = "none" },
+    TelescopeResultsBorder = { fg = "#81a1c1", bg = "none" },
+    TelescopePreviewBorder = { fg = "#8fbcbb", bg = "none" },
+    TelescopePromptTitle = { fg = "#1b1f27", bg = "#88c0d0", bold = true },
+    TelescopeResultsTitle = { fg = "#1b1f27", bg = "#81a1c1", bold = true },
+    TelescopePreviewTitle = { fg = "#1b1f27", bg = "#8fbcbb", bold = true },
+
   },
 }
 

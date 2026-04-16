@@ -10,7 +10,7 @@
 - Для `nvim-lint` линтер `hadolint` переведён на filetype `dockerfile`.
 - В `vim-terraform` отключён `terraform_fmt_on_save`; форматирование Terraform/HCL оставлено только через `conform.nvim`.
 - В `mason.ensure_installed` удалён дублирующийся `ansible-language-server`.
-- Улучшен интерфейс `which-key`: включён `modern` preset, ускорен показ подсказок, улучшена компоновка/окно popup и добавлена локализация части автогенерируемых подсказок.
+- `which-key` переведён в упрощённый режим: `classic` preset, показываются только маппинги с `desc`, отключены шумные built-in пресеты, добавлено единое меню справки `<leader>h*`.
 
 ### Added
 - Добавлен плагин `b0o/SchemaStore.nvim`.

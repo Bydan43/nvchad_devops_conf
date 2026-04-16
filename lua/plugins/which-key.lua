@@ -1,15 +1,18 @@
 -- Подсказки по клавишам: после <leader> появляется всплывающее окно с описаниями.
--- Тексты групп — на русском; у отдельных маппингов подписи задаются полем `desc` в mappings.lua.
+-- Упрощенный режим: показываем только осмысленные (описанные) маппинги.
 return {
   {
     "folke/which-key.nvim",
     opts = {
-      preset = "modern",
+      preset = "classic",
       delay = function(ctx)
-        return ctx.plugin and 0 or 120
+        return ctx.plugin and 0 or 180
       end,
-      sort = { "local", "order", "group", "alphanum", "mod", "manual" },
-      expand = 1,
+      filter = function(mapping)
+        return mapping.desc and mapping.desc ~= ""
+      end,
+      sort = { "manual", "group", "alphanum" },
+      expand = 0,
       win = {
         border = "rounded",
         no_overlap = true,
@@ -23,23 +26,23 @@ return {
       },
       layout = {
         width = { min = 22, max = 52 },
-        spacing = 4,
+        spacing = 3,
       },
       plugins = {
-        marks = true,
-        registers = true,
+        marks = false,
+        registers = false,
         spelling = {
           enabled = true,
-          suggestions = 20,
+          suggestions = 12,
         },
         presets = {
-          operators = true,
-          motions = true,
-          text_objects = true,
-          windows = true,
-          nav = true,
-          z = true,
-          g = true,
+          operators = false,
+          motions = false,
+          text_objects = false,
+          windows = false,
+          nav = false,
+          z = false,
+          g = false,
         },
       },
       replace = {
@@ -81,6 +84,7 @@ return {
       },
       spec = {
         { "<leader>", group = "Лидер-меню" },
+        { "<leader>h", group = "Справка и подсказки" },
         { "<leader>q", group = "Диагностика (Trouble)" },
         { "<leader>t", group = "Тесты (Neotest)" },
         { "<leader>d", group = "Отладка (DAP)" },
@@ -94,19 +98,42 @@ return {
     },
     keys = {
       {
+        "<leader>hh",
+        function()
+          require("which-key").show { global = false }
+        end,
+        desc = "Справка по клавишам (текущий буфер)",
+      },
+      {
+        "<leader>hH",
+        function()
+          require("which-key").show { global = true }
+        end,
+        desc = "Справка по клавишам (все сочетания)",
+      },
+      {
+        "<leader>hl",
+        "<cmd>WhichKey <leader><CR>",
+        desc = "Показать лидер-меню",
+      },
+      {
+        "<leader>hk",
+        "<cmd>NvCheatsheet<CR>",
+        desc = "Шпаргалка NvChad",
+      },
+      {
         "<leader>?",
         function()
           require("which-key").show { global = false }
         end,
-        desc = "Шпаргалка: клавиши для этого буфера",
+        desc = "Справка по клавишам (текущий буфер)",
       },
-      -- Не используем <leader>wk: в NvChad он уже занят (поиск по префиксу в WhichKey).
       {
         "<leader>!",
         function()
           require("which-key").show { global = true }
         end,
-        desc = "Шпаргалка: все доступные сочетания",
+        desc = "Справка по клавишам (все сочетания)",
       },
     },
   },

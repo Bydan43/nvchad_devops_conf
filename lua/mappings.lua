@@ -163,8 +163,3 @@ map("i", "jj", "<ESC>")
 
 -- Закрыть терминал с помощью <leader>x (только в терминальном режиме)
 map("t", "<leader>x", "<C-\\><C-n>:q<CR>", { desc = "Закрыть плавающе окна" })
-
--- Принять автодополнение от Codeium (Ctrl-g в режиме вставки)
-map("i", "<C-g>", function()
-  return vim.fn["codeium#Accept"]()
-end, { expr = true })

@@ -36,7 +36,6 @@ return {
         "ansible-language-server",
         "terraform-ls",
         "nginx-language-server",
-        "ansible-language-server",
         "bash-language-server",
         "docker-language-server",
         "docker-compose-language-service",

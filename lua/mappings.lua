@@ -139,16 +139,20 @@ end, { desc = "Открыть/закрыть терминал в плавающ�
 -- --------------------------------------------------
 --                    Ansible
 -- --------------------------------------------------
-map("v", "<leader>te", function()
-  require("ansible").run()
-end, { buffer = true, silent = true, desc = "Запустить Ansible (выделение)" })
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "ansible",
+  callback = function(args)
+    local opts = { buffer = args.buf, silent = true, desc = "Запустить Ansible (выделение)" }
+    map("v", "<leader>te", function()
+      require("ansible").run()
+    end, opts)
 
-map(
-  "n",
-  "<leader>te",
-  ":w<CR> :lua require('ansible').run()<CR>",
-  { buffer = true, silent = true, desc = "Запустить Ansible" }
-)
+    map("n", "<leader>te", function()
+      vim.cmd "write"
+      require("ansible").run()
+    end, { buffer = args.buf, silent = true, desc = "Запустить Ansible" })
+  end,
+})
 
 -- --------------------------------------------------
 --                    LazyGit

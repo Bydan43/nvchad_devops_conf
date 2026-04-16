@@ -14,6 +14,11 @@ return {
               return vim.fn.getcwd()
             end,
           },
+          require "neotest-go" {
+            experimental = {
+              test_table = true,
+            },
+          },
         },
       }
     end,
@@ -22,6 +27,7 @@ return {
       "nvim-treesitter/nvim-treesitter",
       "antoinemadec/FixCursorHold.nvim",
       "haydenmeade/neotest-jest",
+      "nvim-neotest/neotest-go",
     },
   },
 }

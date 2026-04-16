@@ -122,6 +122,49 @@ vim.lsp.config('helm_ls', {
 vim.lsp.config('yamlls', {
   on_attach = on_attach,
   capabilities = capabilities,
+  settings = {
+    yaml = {
+      validate = true,
+      completion = true,
+      hover = true,
+      schemaStore = {
+        enable = false,
+        url = "",
+      },
+      schemas = (function()
+        local ok, schemastore = pcall(require, "schemastore")
+        if ok then
+          local schemas = schemastore.yaml.schemas()
+          schemas["https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.30.0-standalone-strict/all.json"] = {
+            "k8s/**.yaml",
+            "k8s/**.yml",
+            "**/kubernetes/**.yaml",
+            "**/kubernetes/**.yml",
+          }
+          schemas["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] = {
+            "docker-compose*.yaml",
+            "docker-compose*.yml",
+            "**/compose*.yaml",
+            "**/compose*.yml",
+          }
+          schemas["https://json.schemastore.org/chart"] = {
+            "**/Chart.yaml",
+            "**/Chart.yml",
+          }
+          schemas["https://json.schemastore.org/helmfile"] = {
+            "**/helmfile.yaml",
+            "**/helmfile.yml",
+          }
+          schemas["https://json.schemastore.org/kustomization"] = {
+            "**/kustomization.yaml",
+            "**/kustomization.yml",
+          }
+          return schemas
+        end
+        return {}
+      end)(),
+    },
+  },
 })
 
 -- Настройка сервера Docker LSP

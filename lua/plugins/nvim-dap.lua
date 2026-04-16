@@ -1,37 +1,35 @@
 -- Плагины для отладки (DAP - Debug Adapter Protocol)
 return {
-  -- Отладки Python  
   {
     "mfussenegger/nvim-dap",
-    config = function()
-      local dap = require('dap')
-      dap.adapters.python = {
-        type = 'executable',
-        command = 'python',
-        args = { '-m', 'debugpy.adapter' },
-      }
-      dap.configurations.python = {
-        {
-          type = 'python',
-          request = 'launch',
-          name = 'Launch file',
-          program = '${file}', -- This will launch the current file
-          pythonPath = function()
-            return 'python'
-          end,
-        },
-      }
-    end,
-  },
-
-   -- Отладки Node
-  {
-    "mfussenegger/nvim-dap",
+    dependencies = {
+      "mxsdev/nvim-dap-vscode-js",
+    },
     config = function()
       local ok, dap = pcall(require, "dap")
       if not ok then
         return
       end
+
+      -- Отладка Python
+      dap.adapters.python = {
+        type = "executable",
+        command = "python",
+        args = { "-m", "debugpy.adapter" },
+      }
+      dap.configurations.python = {
+        {
+          type = "python",
+          request = "launch",
+          name = "Launch file",
+          program = "${file}",
+          pythonPath = function()
+            return "python"
+          end,
+        },
+      }
+
+      -- Отладка Node / TypeScript
       dap.configurations.typescript = {
         {
           type = "node2",
@@ -49,8 +47,5 @@ return {
         args = {},
       }
     end,
-    dependencies = {
-      "mxsdev/nvim-dap-vscode-js",
-    },
   },
 }

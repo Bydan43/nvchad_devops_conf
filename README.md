@@ -3,6 +3,7 @@
 Конфиг основан на [NvChad](https://github.com/NvChad/NvChad) (ветка `v2.5`) и [lazy.nvim](https://github.com/folke/lazy.nvim). Пользовательские плагины лежат в `lua/plugins/`, общие настройки — в `lua/configs/`, сочетания клавиш — в `lua/mappings.lua`.
 
 **Лидер-клавиша:** пробел (`<leader>` = ` `).
+**История изменений:** см. [CHANGELOG.md](./CHANGELOG.md).
 
 ---
 
@@ -40,8 +41,9 @@ Mason ставит бинарники (LSP, линтеры, форматтеры
 | Компонент | Файл | Назначение |
 |-----------|------|------------|
 | **conform.nvim** | `lua/configs/conform.lua` | Форматирование при сохранении (`BufWritePre`): Lua/CSS/HTML/JS/TS/React, HCL/Terraform, Bash, Python. |
-| **nvim-lint** | `lua/configs/lint.lua` | Линтеры после сохранения (`BufWritePost`): ESLint (JS/TS), ansible-lint, hadolint для Docker. |
-| **vim-terraform** | `lua/plugins/vim-terraform.lua` | Подсветка Terraform + `terraform fmt` при сохранении (`g:terraform_fmt_on_save`). |
+| **nvim-lint** | `lua/configs/lint.lua` | Линтеры после сохранения (`BufWritePost`): ESLint (JS/TS), ansible-lint, hadolint для `Dockerfile`. |
+| **vim-terraform** | `lua/plugins/vim-terraform.lua` | Подсветка Terraform и выравнивание HCL. Автоформат при сохранении отключён в пользу `conform.nvim`. |
+| **SchemaStore + yamlls** | `lua/plugins/schemastore.lua`, `lua/configs/lspconfig.lua` | JSON/YAML-схемы для автодополнения и валидации (включая K8s, Compose, Helm, Kustomize). |
 
 ---
 
@@ -53,10 +55,11 @@ Mason ставит бинарники (LSP, линтеры, форматтеры
 
 | Плагин | Зачем |
 |--------|--------|
-| [hashivim/vim-terraform](https://github.com/hashivim/vim-terraform) | Terraform: подсветка, выравнивание, автоформат при сохранении. |
+| [hashivim/vim-terraform](https://github.com/hashivim/vim-terraform) | Terraform: подсветка и выравнивание HCL. |
 | [towolf/vim-helm](https://github.com/towolf/vim-helm) | Подсветка Helm-шаблонов в YAML. |
-| [mfussenegger/nvim-ansible](https://github.com/mfussenegger/nvim-ansible) | Ansible: удобства для плейбуков (в т.ч. запуск из маппинга). |
+| [mfussenegger/nvim-ansible](https://github.com/mfussenegger/nvim-ansible) | Ansible: удобства для плейбуков; запуск из маппинга `<leader>te` (только в `FileType=ansible`). |
 | [crnvl96/lazydocker.nvim](https://github.com/crnvl96/lazydocker.nvim) | TUI Docker через команду `:LazyDocker`. Нужен CLI `lazydocker` и `docker`/`podman` в `PATH`. В `init.lua` в начало `PATH` добавляются типичные каталоги (Homebrew и др.), чтобы GUI Neovim видел те же бинарники, что и терминал. |
+| [b0o/SchemaStore.nvim](https://github.com/b0o/SchemaStore.nvim) | Каталог JSON/YAML-схем для LSP (`yamlls`), улучшает валидацию и подсказки в инфраструктурных YAML-файлах. |
 
 ### Git
 
@@ -82,8 +85,8 @@ Mason ставит бинарники (LSP, линтеры, форматтеры
 |--------|--------|
 | [folke/trouble.nvim](https://github.com/folke/trouble.nvim) | Список диагностик LSP, quickfix/loclist в одном UI (`:Trouble*`). |
 | [folke/todo-comments.nvim](https://github.com/folke/todo-comments.nvim) | Подсветка `TODO`/`FIXME` и поиск через Telescope (`:TodoTelescope`). |
-| [nvim-neotest/neotest](https://github.com/nvim-neotest/neotest) + [neotest-jest](https://github.com/nvim-neotest/neotest-jest) | Запуск Jest-тестов из редактора. |
-| [mfussenegger/nvim-dap](https://github.com/mfussenegger/nvim-dap) | Отладка по DAP (Python, TypeScript/Node в конфиге). |
+| [nvim-neotest/neotest](https://github.com/nvim-neotest/neotest) + [neotest-jest](https://github.com/nvim-neotest/neotest-jest) + [neotest-go](https://github.com/nvim-neotest/neotest-go) | Запуск тестов Jest и Go из редактора. |
+| [mfussenegger/nvim-dap](https://github.com/mfussenegger/nvim-dap) | Отладка по DAP (Python и TypeScript/Node в одном spec-конфиге). |
 | [rcarriga/nvim-dap-ui](https://github.com/rcarriga/nvim-dap-ui) | Панели breakpoints, стека, переменных для DAP. |
 | [kevinhwang91/nvim-bqf](https://github.com/kevinhwang91/nvim-bqf) | Улучшенный quickfix (фильтры, превью). |
 
@@ -206,7 +209,7 @@ Git:
 | `Ctrl + f` (`<C-f>`) | `n`, `t` | Плавающий терминал. |
 | `<leader> x` | `t` | Закрыть терминальное окно. |
 
-Ansible:
+Ansible (только в буферах с `FileType=ansible`):
 
 | Клавиши | Режим | Действие |
 |---------|-------|----------|

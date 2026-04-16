@@ -16,6 +16,70 @@ end, { desc = "Закрыть все буферы" })
 -- Найти заметки Todo с помощью Telescope (<leader>ft в нормальном режиме)
 map("n", "<leader>ft", "<cmd>TodoTelescope<CR>", { desc = "Найти Todo" })
 
+-- --------------------------------------------------
+--          Файловый менеджер: туда/сюда
+-- --------------------------------------------------
+local last_file_win
+
+local function is_tree_win(win)
+  if not win or not vim.api.nvim_win_is_valid(win) then
+    return false
+  end
+
+  local ok, api = pcall(require, "nvim-tree.api")
+  if not ok then
+    return false
+  end
+
+  local buf = vim.api.nvim_win_get_buf(win)
+  return api.tree.is_tree_buf(buf)
+end
+
+local function pick_file_win()
+  if last_file_win and vim.api.nvim_win_is_valid(last_file_win) and not is_tree_win(last_file_win) then
+    return last_file_win
+  end
+
+  for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+    local cfg = vim.api.nvim_win_get_config(win)
+    if cfg.relative == "" and not is_tree_win(win) then
+      return win
+    end
+  end
+
+  return nil
+end
+
+local function toggle_tree_focus()
+  local ok, api = pcall(require, "nvim-tree.api")
+  if not ok then
+    vim.notify("nvim-tree недоступен", vim.log.levels.WARN)
+    return
+  end
+
+  local cur_win = vim.api.nvim_get_current_win()
+
+  if is_tree_win(cur_win) then
+    local target = pick_file_win()
+    if target then
+      vim.api.nvim_set_current_win(target)
+    else
+      vim.cmd "NvimTreeClose"
+    end
+    return
+  end
+
+  last_file_win = cur_win
+
+  if api.tree.is_visible() then
+    vim.cmd "NvimTreeFocus"
+  else
+    vim.cmd "NvimTreeOpen"
+  end
+end
+
+map("n", "<leader>o", toggle_tree_focus, { desc = "Файлы <-> Дерево" })
+
 -- Вертикальный сплит (разделение окна) (\ в нормальном режиме)
 map("n", "\\", "<cmd>:vsplit <CR>", { desc = "Вертикальный сплит" })
 

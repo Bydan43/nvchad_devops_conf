@@ -4,7 +4,6 @@ return {
     "nvim-tree/nvim-tree.lua",
     keys = {
       { "<leader>e", "<cmd>NvimTreeToggle<CR>", desc = "Файлы: показать/скрыть" },
-      { "<leader>o", "<cmd>NvimTreeFocus<CR>", desc = "Файлы: фокус" },
     },
     opts = function(_, opts)
       opts.view = vim.tbl_deep_extend("force", opts.view or {}, {

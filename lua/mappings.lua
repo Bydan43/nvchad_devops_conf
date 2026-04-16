@@ -177,6 +177,23 @@ local function ensure_commentstring()
   if vim.bo.commentstring ~= nil and vim.bo.commentstring ~= "" then
     return true
   end
+
+  local fallback_by_ft = {
+    ansible = "# %s",
+    yaml = "# %s",
+    toml = "# %s",
+    conf = "# %s",
+    dosini = "; %s",
+    terraform = "# %s",
+    hcl = "# %s",
+    dockerfile = "# %s",
+    nginx = "# %s",
+    sh = "# %s",
+    bash = "# %s",
+    zsh = "# %s",
+    python = "# %s",
+  }
+
   local ft = vim.bo.filetype
   if ft and ft ~= "" then
     local ok, cs = pcall(vim.filetype.get_option, ft, "commentstring")
@@ -184,7 +201,18 @@ local function ensure_commentstring()
       vim.bo.commentstring = cs
       return true
     end
+    if fallback_by_ft[ft] then
+      vim.bo.commentstring = fallback_by_ft[ft]
+      return true
+    end
   end
+
+  local name = vim.api.nvim_buf_get_name(0)
+  if name:match("docker%-compose.*%.ya?ml$") or name:match("%.ya?ml$") or name:match("%.env") then
+    vim.bo.commentstring = "# %s"
+    return true
+  end
+
   return false
 end
 

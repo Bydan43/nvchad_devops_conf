@@ -10,9 +10,9 @@
 - Для `nvim-lint` линтер `hadolint` переведён на filetype `dockerfile`.
 - В `vim-terraform` отключён `terraform_fmt_on_save`; форматирование Terraform/HCL оставлено только через `conform.nvim`.
 - В `mason.ensure_installed` удалён дублирующийся `ansible-language-server`.
+- Улучшен интерфейс `which-key`: включён `modern` preset, ускорен показ подсказок, улучшена компоновка/окно popup и добавлена локализация части автогенерируемых подсказок.
 
 ### Added
 - Добавлен плагин `b0o/SchemaStore.nvim`.
 - Расширены настройки `yamlls`: подключены схемы SchemaStore и явные маппинги для Kubernetes, Docker Compose, Helm (`Chart.yaml`, `helmfile.yaml`) и Kustomize.
 - В `neotest` добавлен адаптер `nvim-neotest/neotest-go`.
-

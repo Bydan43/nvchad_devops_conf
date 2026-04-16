@@ -56,8 +56,7 @@ Mason ставит бинарники (LSP, линтеры, форматтеры
 | [hashivim/vim-terraform](https://github.com/hashivim/vim-terraform) | Terraform: подсветка, выравнивание, автоформат при сохранении. |
 | [towolf/vim-helm](https://github.com/towolf/vim-helm) | Подсветка Helm-шаблонов в YAML. |
 | [mfussenegger/nvim-ansible](https://github.com/mfussenegger/nvim-ansible) | Ansible: удобства для плейбуков (в т.ч. запуск из маппинга). |
-| [ramilito/kubectl.nvim](https://github.com/ramilito/kubectl.nvim) | UI kubectl внутри Neovim. |
-| [crnvl96/lazydocker.nvim](https://github.com/crnvl96/lazydocker.nvim) | TUI Docker через команду `:LazyDocker`. |
+| [crnvl96/lazydocker.nvim](https://github.com/crnvl96/lazydocker.nvim) | TUI Docker через команду `:LazyDocker`. Нужен CLI `lazydocker` и `docker`/`podman` в `PATH`. В `init.lua` в начало `PATH` добавляются типичные каталоги (Homebrew и др.), чтобы GUI Neovim видел те же бинарники, что и терминал. |
 
 ### Git
 
@@ -117,7 +116,30 @@ Mason ставит бинарники (LSP, линтеры, форматтеры
 
 ---
 
+## Подсказки по клавишам на русском (which-key)
+
+Плагин [folke/which-key.nvim](https://github.com/folke/which-key.nvim) уже входит в NvChad. Дополнительно в `lua/plugins/which-key.lua` заданы **русские названия групп** (после пробела и буквы префикса, например `<leader>q`, откроется секция с русским заголовком).
+
+Как пользоваться:
+
+- Нажми **лидер** (`Пробел`) и **не спеши** сразу нажимать вторую клавишу: через короткую паузу откроется окно с подсказками по доступным продолжениям.
+- Явный вызов шпаргалки:
+  - `Пробел` `?` — подсказки с учётом текущего буфера (`global = false`);
+  - `Пробел` `!` — все доступные сочетания (`global = true`). Знак `!` = `Shift` + `1` на обычной раскладке.
+
+В NvChad также есть старые хоткеи WhichKey: `<leader>wk` (запрос префикса) и `<leader>wK` (полный список через команду `:WhichKey`).
+
+Тексты отдельных действий берутся из поля `desc` в `lua/mappings.lua` — чем больше там русских описаний, тем понятнее всплывающее окно.
+
+---
+
 ## Основные сочетания клавиш (`lua/mappings.lua`)
+
+Нотация:
+
+- `<C-...>` = удерживай `Ctrl` и нажми вторую клавишу.
+- `<leader>` = пробел (`Space`).
+- `n`, `i`, `v`, `t` в колонке "Режим" = normal / insert / visual / terminal.
 
 Общие:
 
@@ -179,17 +201,16 @@ Git:
 
 | Клавиши | Режим | Действие |
 |---------|-------|----------|
-| `<C-]>` | `n`, `t` | Вертикальный терминал. |
-| `<C-\>` | `n`, `t` | Горизонтальный терминал. |
-| `<C-f>` | `n`, `t` | Плавающий терминал. |
+| `Ctrl + ]` (`<C-]>`) | `n`, `t` | Вертикальный терминал. |
+| `Ctrl + \\` (`<C-\\>`) | `n`, `t` | Горизонтальный терминал. |
+| `Ctrl + f` (`<C-f>`) | `n`, `t` | Плавающий терминал. |
 | `<leader> x` | `t` | Закрыть терминальное окно. |
 
-Ansible и Kubernetes:
+Ansible:
 
 | Клавиши | Режим | Действие |
 |---------|-------|----------|
 | `<leader> te` | `n`, `v` | Запуск Ansible (`nvim-ansible`). |
-| `<leader> k` | `n` | Переключить kubectl.nvim. |
 
 Docker:
 
@@ -204,6 +225,14 @@ Leap (настроено в `lua/plugins/git-plugins.lua`):
 | `s` | `n`, `x`, `o` | Leap вперёд. |
 | `S` | `n`, `x`, `o` | Leap назад. |
 | `gs` | `n`, `x`, `o` | Leap в другое окно. |
+
+---
+
+## Если ругается на комментарий (`commentstring` / `modifiable`)
+
+Сообщения вроде `Option 'commentstring' is empty` и `Buffer is not 'modifiable'` появляются у **встроенного** переключения комментария (в т.ч. через `<leader>/` из NvChad), если буфер только для чтения (help, часть UI плагинов) или для файла не задан тип/шаблон комментария.
+
+В этом конфиге `<leader>/` переопределён в `lua/mappings.lua`: сначала проверяются `modifiable`, тип буфера и `commentstring`, затем вызывается встроенный API. Прямые хоткеи `gcc` / `gc` Neovim по-прежнему могут падать в тех же ситуациях — там проверок нет.
 
 ---
 

@@ -4,6 +4,29 @@ vim.g.base46_cache = vim.fn.stdpath("data") .. "/base46/"
 -- Определяем пробел в качестве клавиши лидера (для пользовательских сочетаний клавиш)
 vim.g.mapleader = " "
 
+-- GUI/встроенный Neovim часто стартует с «урезанным» PATH (без Homebrew и т.д.),
+-- тогда `vim.fn.executable("lazydocker")` и аналоги не находят бинарники из терминала.
+do
+  local sep = vim.fn.has("win32") == 1 and ";" or ":"
+  local path = vim.env.PATH or ""
+  local function prepend(dir)
+    if vim.fn.isdirectory(dir) ~= 1 then
+      return
+    end
+    for entry in path:gmatch("[^" .. sep .. "]+") do
+      if entry == dir then
+        return
+      end
+    end
+    path = dir .. sep .. path
+  end
+  prepend("/opt/homebrew/bin")
+  prepend("/usr/local/bin")
+  prepend(vim.fn.expand("~/go/bin"))
+  prepend(vim.fn.expand("~/.local/bin"))
+  vim.env.PATH = path
+end
+
 -- Подготовка к загрузке lazy.nvim и всех плагинов
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 

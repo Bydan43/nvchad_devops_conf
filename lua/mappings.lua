@@ -139,16 +139,16 @@ end, { desc = "Открыть/закрыть терминал в плавающ�
 -- --------------------------------------------------
 --                    Ansible
 -- --------------------------------------------------
-map('v', '<leader>te', function()
-  require('ansible').run()
-end, { buffer = true, silent = true, })
+map("v", "<leader>te", function()
+  require("ansible").run()
+end, { buffer = true, silent = true, desc = "Запустить Ansible (выделение)" })
 
-map('n', '<leader>te', ":w<CR> :lua require('ansible').run()<CR>", { buffer = true, silent = true, desc = "Ansible run" })
-
--- --------------------------------------------------
---                    Kubectl
--- --------------------------------------------------
-map("n", "<leader>k", '<cmd>lua require("kubectl").toggle()<cr>', { noremap = true, silent = true, desc = "kubect" })
+map(
+  "n",
+  "<leader>te",
+  ":w<CR> :lua require('ansible').run()<CR>",
+  { buffer = true, silent = true, desc = "Запустить Ansible" }
+)
 
 -- --------------------------------------------------
 --                    LazyGit
@@ -159,7 +159,68 @@ map("n", "<leader>lg", "<cmd>LazyGit<cr>", { desc = "LazyGit" })
 --                    Базовые
 -- --------------------------------------------------
 -- Быстрый выход из режима вставки (jj в режиме вставки)
-map("i", "jj", "<ESC>")
+map("i", "jj", "<ESC>", { desc = "Выйти из вставки (как Esc)" })
 
 -- Закрыть терминал с помощью <leader>x (только в терминальном режиме)
-map("t", "<leader>x", "<C-\\><C-n>:q<CR>", { desc = "Закрыть плавающе окна" })
+map("t", "<leader>x", "<C-\\><C-n>:q<CR>", { desc = "Закрыть терминал" })
+
+-- --------------------------------------------------
+-- Комментарий (<leader>/) — безопасная замена встроенного gcc/gc
+-- NvChad по умолчанию: map("n", "<leader>/", "gcc", { remap = true }).
+-- В буферах nomodifiable или без commentstring встроенный код падает с E5108.
+-- --------------------------------------------------
+local function ensure_commentstring()
+  if vim.bo.commentstring ~= nil and vim.bo.commentstring ~= "" then
+    return true
+  end
+  local ft = vim.bo.filetype
+  if ft and ft ~= "" then
+    local ok, cs = pcall(vim.filetype.get_option, ft, "commentstring")
+    if ok and cs and cs ~= "" then
+      vim.bo.commentstring = cs
+      return true
+    end
+  end
+  return false
+end
+
+local function safe_comment_toggle(line_start, line_end, ref_pos)
+  if not vim.bo.modifiable then
+    vim.notify("Буфер только для чтения — нельзя переключить комментарий.", vim.log.levels.WARN)
+    return
+  end
+  local bt = vim.bo.buftype
+  if bt == "help" or bt == "quickfix" or bt == "terminal" or bt == "prompt" then
+    vim.notify("В этом типе буфера комментирование не используется.", vim.log.levels.WARN)
+    return
+  end
+  if not ensure_commentstring() then
+    vim.notify(
+      "Не задан commentstring. Задай тип файла (:set ft=...) или открой файл с известным расширением.",
+      vim.log.levels.WARN
+    )
+    return
+  end
+  local ok_mod, comment = pcall(require, "vim._comment")
+  if not ok_mod or type(comment.toggle_lines) ~= "function" then
+    vim.notify("Встроенный модуль комментариев недоступен.", vim.log.levels.WARN)
+    return
+  end
+  local ok, err = pcall(comment.toggle_lines, line_start, line_end, ref_pos)
+  if not ok then
+    vim.notify("Не удалось переключить комментарий: " .. tostring(err), vim.log.levels.WARN)
+  end
+end
+
+map("n", "<leader>/", function()
+  local l = vim.fn.line(".")
+  safe_comment_toggle(l, l, vim.api.nvim_win_get_cursor(0))
+end, { desc = "Переключить комментарий строки" })
+
+map("v", "<leader>/", function()
+  local a = vim.fn.line("v")
+  local b = vim.fn.line(".")
+  local start = math.min(a, b)
+  local finish = math.max(a, b)
+  safe_comment_toggle(start, finish, { start, 0 })
+end, { desc = "Переключить комментарий выделения" })

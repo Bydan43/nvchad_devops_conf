@@ -293,6 +293,8 @@ local function ensure_commentstring()
     bash = "# %s",
     zsh = "# %s",
     python = "# %s",
+    json = "// %s",
+    jsonc = "// %s",
   }
 
   local ft = vim.bo.filetype
